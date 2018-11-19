@@ -3,6 +3,23 @@ const ctx = canvas.getContext('2d');
 
 canvas.width = 1000;
 canvas.height= 500;
+let gameWidth = canvas.width;
+
+const ballMove = ballsGame => {
+  ballsGame.forEach(ballGame => {
+    ballGame.move(collisionObjects);
+  })
+}
+
+const updateGameWindow = () => {
+  gameWidth = canvas.width;
+  ComputerPaddle.positionX = canvas.width - 30;
+}
+
+const clearScreen = () => {
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+} 
 
 function Paddel(width, height, color, positionX, positionY){
     this.width = width;
@@ -35,15 +52,23 @@ function Paddel(width, height, color, positionX, positionY){
   }
 
   const collisionObjects = [];
+  const ballsGame = [];
 
   const PlayerPaddel = new Paddel(20, 120, 'green', 10, 50);
   const ComputerPaddle = new Paddel(20, 120, 'red', canvas.width - 30, 100);
-  const Ball1 = new Ball(8, 'black', canvas.width / 2  -4, canvas.height / 2 - 4);
-  const Ball2 = new Ball( 8, 'grey', 50, 50);
-  const Ball3 = new Ball( 8, 'yellow', 450, 300);
+  const Ball1 = new Ball(8, 'white', canvas.width / 2  -4, canvas.height / 2 - 4);
 
   collisionObjects.push(PlayerPaddel, ComputerPaddle, Ball1);
-  collisionObjects.push(Ball2, Ball3);
+  ballsGame.push(Ball1);
 
-drawObject(collisionObjects, ctx);
 
+const run = () => {
+  if( gameWidth !== canvas.width)
+    updateGameWindow();
+  clearScreen();
+  ballMove(ballsGame);
+
+  drawObject(collisionObjects, ctx);
+};
+
+let timer = setInterval(run, 1000 / 60);
