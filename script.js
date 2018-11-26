@@ -2,7 +2,7 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const playerPointsTable = document.querySelector('.playerPoints');
 const computerPointsTable = document.querySelector('.computerPoints');
-const buttonReset = document.querySelector('reset');
+const buttonReset = document.querySelector('.reset');
 
 canvas.width = 1000;
 canvas.height = 500;
@@ -66,7 +66,7 @@ function Paddel(width, height, color, positionX, positionY) {
     this.middleHeight = height / 2;
 
     this.autoMove = ballsGame =>{
-        let minX = canvas,width;
+        let minX = canvas.width;
         let numberOfMinElements;
         let tempX;
         for(let i = 0; i<ballsGame.length; i++){
@@ -80,11 +80,12 @@ function Paddel(width, height, color, positionX, positionY) {
                 minX = tempX;
                 numberOfMinElements = i;
             }
-        }
+        
         if(this.positionY + this.middleHeight > ballsGame[numberOfMinElements].positionY + ballsGame[numberOfMinElements].middleHeight)
             this.moveUp(ballsGame);
         else
             this.moveDown(ballsGame);
+    }
     }
 
     this.moveUp = ballsGame => {
@@ -99,7 +100,7 @@ function Paddel(width, height, color, positionX, positionY) {
         for(let i = 0; i < ballsGame.length; i++){
             ballBottom = ballsGame[i].positionY + ballsGame[i].height;
             ballLeft = ballsGame[i]. positionX;
-            ballMove = ballsGame[i].positionX + ballsGame[i].width;
+            ballRight = ballsGame[i].positionX + ballsGame[i].width;
         
             if(((paddelLeft <= ballLeft && ballLeft <= paddelRight) || (paddelLeft <= ballRight && ballRight <= paddelRight)) && (paddelTop >= ballBottom && (paddelTop - this.speed <= ballBottom))){
                this.positionY = ballBottom; 
@@ -128,9 +129,9 @@ function Paddel(width, height, color, positionX, positionY) {
         for(let i = 0; i < ballsGame.length; i++){
             ballTop = ballsGame[i].positionY;
             ballLeft = ballsGame[i]. positionX;
-            ballMove = ballsGame[i].positionX + ballsGame[i].width;
+            ballRight = ballsGame[i].positionX + ballsGame[i].width;
         
-            if(((paddelLeft <= ballLeft && ballLeft <= paddelRight) || (paddelLeft <= ballRight && ballRight <= paddelRight)) && (paddelBottom <= ballTop && (paddelBottom + this.speed >= ballTp[]))){
+            if(((paddelLeft <= ballLeft && ballLeft <= paddelRight) || (paddelLeft <= ballRight && ballRight <= paddelRight)) && (paddelBottom <= ballTop && (paddelBottom + this.speed >= ballTop))){
                this.positionY = ballTop - this.height; 
                collision = !collision;
                break;
@@ -155,7 +156,7 @@ function Ball(size, color, positionX, positionY) {
     this.middleHeight = size / 2;
     this.speedX = startSpeed;
     this.speedY = startSpeed;
-    this.directionX = true; //true = w prawo
+    this.directionX = false; //true = w prawo
     this.directionY = true; //true = w dół
 
     this.resetBall = () => {
